@@ -1,0 +1,42 @@
+% Empty Margins Package
+%
+% Based on the deprecated 'emptymargins' option used in the Turabian Formatting for 
+% LaTeX package, 2016/03/18
+%
+%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{emptymargins}[2019/07/20 Empty Margins Package]
+
+
+% Load geometry and etoolbox if needed
+\@ifpackageloaded{geometry}%
+	{}%
+	{\RequirePackage{geometry}}
+
+\@ifpackageloaded{etoolbox}%
+	{}%
+	{\RequirePackage{etoolbox}}
+
+
+% Set page layout defaults
+\geometry{margin=1in, footskip=0.5in, includehead}
+
+
+% Set \headsep so that \footskip = \headsep + \headheight
+\setlength\headsep{\footskip}
+\addtolength\headsep{-\headheight}
+
+
+% Plain page style with empty header moved into margin
+\appto{\ps@plain}{%
+	\addtolength\topmargin{-\footskip}}
+
+
+% Title page layout
+\if@titlepage
+	\preto{\maketitle}{%
+		\newgeometry{margin=1in, ignoreall, noheadfoot}}
+	\appto{\maketitle}{\restoregeometry}
+\fi
+
