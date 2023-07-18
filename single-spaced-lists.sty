@@ -1,0 +1,77 @@
+% Single-spaced List Formatting for turabian-formatting
+%
+% This package is intended for use with the turabian-formatting package (version
+% 2021/03/20 and above).
+%
+%
+
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{single-spaced-lists}[2022/07/18 Single-spaced List Formatting for turabian-formatting]
+
+
+\@ifpackageloaded{turabian-formatting}{%
+
+	% Itemized list formatting
+
+	\def\tf@itemizeformat{%
+		\setlength\topsep{-\tf@singlelineskip}
+		\setlength\parskip{\z@}
+		\setlength\itemsep{\z@}
+		\setlength\parsep{\z@}
+		\setlength\listparindent{\parindent}
+
+		\ifnum \@itemdepth = 1%
+			\setlength\partopsep{-\topsep}
+			\addtolength\partopsep{-\parskip}
+			\addtolength\partopsep{\z@}
+		\fi}
+
+	\def\itemize{%
+		\ifnum \@itemdepth = 0%
+			\par\singlespacing
+		\fi
+		\ifnum \@itemdepth >\thr@@\@toodeep \else
+			\advance\@itemdepth\@ne
+			\edef\@itemitem{labelitem\romannumeral\the\@itemdepth}%
+			\expandafter
+			\list
+				\csname\@itemitem\endcsname
+				{\def\makelabel##1{\hss\llap{##1}}%
+				\tf@itemizeformat}%
+		\fi}
+
+
+	% Enumerated list formatting
+
+	\def\tf@enumerateformat{%
+		\setlength\topsep{-\tf@singlelineskip}
+		\setlength\parskip{\z@}
+		\setlength\itemsep{\z@}
+		\setlength\parsep{\z@}
+		\setlength\listparindent{\parindent}
+
+		\ifnum \@enumdepth = 1%
+			\setlength\partopsep{-\topsep}
+			\addtolength\partopsep{-\parskip}
+			\addtolength\partopsep{\z@}
+		\fi}
+
+	\def\enumerate{%
+		\ifnum \@enumdepth = 0%
+			\par\singlespacing
+		\fi
+		\ifnum \@enumdepth >\thr@@\@toodeep \else
+			\advance\@enumdepth\@ne
+			\edef\@enumctr{enum\romannumeral\the\@enumdepth}%
+			\expandafter
+			\list
+				\csname label\@enumctr\endcsname
+				{\usecounter\@enumctr%
+				\def\makelabel##1{\hss\llap{##1}}%
+				\tf@enumerateformat}%
+		\fi}
+
+}
+
+
