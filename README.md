@@ -1,6 +1,6 @@
 # turabian-formatting-mods
 
-The LaTeX packages in **turabian-formatting-mods** each modify the formatting in the [turabian-formatting](https://www.ctan.org/pkg/turabian-formatting) package. They may be used individually or together, depending upon the intended changes needed.
+The LaTeX packages in **turabian-formatting-mods** each provide formatting changes to the [turabian-formatting](https://www.ctan.org/pkg/turabian-formatting) package. These packages may be used individually or together, depending upon the intended changes needed.
 
 ## emptymargins
 Formats a document so that the margins are entirely empty (containing neither a header or footer). Header and footers are, instead, placed in the content area of each page.
