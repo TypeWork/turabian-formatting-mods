@@ -1,0 +1,73 @@
+% Numbered Sections for turabian-thesis
+%
+% This package is intended for use with the turabian-thesis package (version
+% 2018/08/01 and above).
+%
+%
+
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{turabian-thesis-secnumbers}[2019/02/03 Numbered Sections for turabian-thesis]
+
+
+% If the turabian-thesis document class is loaded, make the necessary changes.
+\@ifclassloaded{turabian-thesis}{%
+
+
+	% ====================
+	% Number section and subsection headings
+
+	% Set secnumdepth to include section and first subsection level
+	\setcounter{secnumdepth}{2}
+
+	% Remove use of hanging indent (doesn't look good with centered headings)
+	\def\@sect#1#2#3#4#5#6[#7]#8{%
+	  \ifnum #2>\c@secnumdepth
+		\let\@svsec\@empty
+	  \else
+		\refstepcounter{#1}%
+		\protected@edef\@svsec{\@seccntformat{#1}\relax}%
+	  \fi
+	  \@tempskipa #5\relax
+	  \ifdim \@tempskipa>\z@
+		\begingroup
+		  #6{\hskip #3\relax
+			\@svsec \interlinepenalty \@M #8\@@par}%
+		\endgroup
+		\csname #1mark\endcsname{#7}%
+		\addcontentsline{toc}{#1}{%
+		  \ifnum #2>\c@secnumdepth \else
+			\protect\numberline{\csname the#1\endcsname}%
+		  \fi
+		  #7}%
+	  \else
+		\def\@svsechd{%
+		  #6{\hskip #3\relax
+		  \@svsec #8}%
+		  \csname #1mark\endcsname{#7}%
+		  \addcontentsline{toc}{#1}{%
+			\ifnum #2>\c@secnumdepth \else
+			  \protect\numberline{\csname the#1\endcsname}%
+			\fi
+			#7}}%
+	  \fi
+	  \@xsect{#5}}
+
+
+	% ====================
+	% Table of Contents includes numbered sections and subsections
+
+	% Set tocdepth to include section and first subsection level
+	\setcounter{tocdepth}{2}
+
+	% Adjust spacing of toc to include section and subsection numbering
+	\renewcommand*{\l@section}{%
+		\ifnum \c@tocdepth >\z@ \vskip \tf@singlelineskip \fi
+		\@dottedtocline{1}{1.25in}{0.5in}}
+
+	\renewcommand*{\l@subsection}{%
+		\ifnum \c@tocdepth >1 \vskip \tf@singlelineskip \fi
+		\@dottedtocline{2}{1.75in}{0.5in}}
+
+}%
+{}
